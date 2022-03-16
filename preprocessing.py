@@ -75,13 +75,12 @@ def load_dataset(data, indices, labels, args, type="train", augment_func = None)
             idx = list(set(idx) & set(indices))
             X.append(
                 tf.data.Dataset.from_generator(
-                    generator(data, idx), output_types=(tf.float32, tf.uint8)
-                ).repeat()
+                    generator(data, idx), output_types=(tf.float32, tf.uint8),output_shapes=(tf.TensorShape([3,90,90]), tf.TensorShape([]))).repeat()
             )
-
+            
         ds = tf.data.experimental.sample_from_datasets(X)
         ds = ds.batch(batch_size=args["batch_size"])
-
+        
         if augment_func is not None:
             ds = ds.map(lambda images, labels: (preprocess_batch(images, augment_func), labels), num_parallel_calls=4)
         ds = ds.prefetch(16)
@@ -91,7 +90,7 @@ def load_dataset(data, indices, labels, args, type="train", augment_func = None)
         if type =="val":
             X = generator(data, indices, shuffle=False)
             ds = tf.data.Dataset.from_generator(
-                X, output_types=(tf.float32, tf.uint8)
+                X, output_types=(tf.float32, tf.uint8),output_shapes=(tf.TensorShape([3,90,90]), tf.TensorShape([]))
             )
             ds_length = len(indices)
         else:
@@ -114,7 +113,7 @@ def load_hdf5_to_memory(args, labels):
 
 
 def load_datasets(train_indices, val_indices, meta, args, augment_func, data=None):
-
+    
     labels = meta["label"].values
     if data is None:
         data = load_hdf5_to_memory(args, labels)
