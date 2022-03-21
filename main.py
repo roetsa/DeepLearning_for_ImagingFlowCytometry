@@ -140,7 +140,7 @@ def main():
         functions.cv.run(args, meta, m, experiment, skip_n_folds=args["skip_n_folds"])
 
     def predict():
-        functions.predict.run(args, meta)
+        functions.predict.run(args)
 
     def param():
         functions.param.run(args, meta)
