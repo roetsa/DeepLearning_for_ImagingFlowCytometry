@@ -13,7 +13,6 @@ import pandas as pd
 import sys
 import json
 import socket
-
 import tensorflow as tf
 from tensorflow.keras import callbacks as tf_callbacks
 import callbacks as my_callbacks
@@ -28,12 +27,12 @@ def prerun(args, run_dir=True, exp=True):
 
         with open(Path(p, "args.json"), "w") as fp:
             json.dump(args, fp)
-    
+
     if exp:
         experiment = Experiment(
-            api_key="pJ6UYxQwjYoYbCmmutkqP66ni",
-            project_name=args["comet_project"],
-            workspace="mlippie",
+            api_key="sKIxPIyvk60GyyXov3CdBOOIT",
+            project_name="matstat-thesis",
+            workspace="roetsa",
             auto_metric_logging=True,
             auto_param_logging=False,
             log_graph=True,
@@ -113,9 +112,7 @@ def main():
 
     from numpy.random import seed
     seed(1)
-    from tensorflow.random import set_seed
-    set_seed(2)
-
+    tf.random.set_seed(2)
     tf.keras.backend.set_image_data_format("channels_first")
 
     if "meta" in args:
@@ -126,7 +123,7 @@ def main():
         m.summary()
 
     def train():
-        experiment = prerun(args)
+        experiment = prerun(args,run_dir=False)
         m = model.build_model(args)
         callbacks = make_callbacks(args, experiment)
 
