@@ -26,8 +26,8 @@ def run(args, meta, model, callbacks, exp, id_=100, data=None):
     
     init_weights_path = Path(args["run_dir"], 'initial_model_weights.h5')
     if init_weights_path.exists():
-        model.load_weights(str(init_weights_path))
-    
+        model.load_weights(str(init_weights_path),by_name=True)
+
     if not init_weights_path.exists():
         hist = model.fit(train_ds,epochs=1,steps_per_epoch=1)
         model.save_weights(str(init_weights_path))

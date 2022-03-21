@@ -71,9 +71,10 @@ def deepflow(args):
         fc1 = keras.layers.Dense(
             256, activation="relu", kernel_regularizer=keras.regularizers.l2(l=args["l2"]),
             kernel_initializer=initializer, bias_initializer=initializer)(flatten)
+        layer_name = "dense_"+str(args["noc"])
         soft = keras.layers.Dense(
             args["noc"], activation="softmax", kernel_regularizer=keras.regularizers.l2(l=args["l2"]),
-            kernel_initializer=initializer, bias_initializer=initializer)(fc1)
+            kernel_initializer=initializer, bias_initializer=initializer,name=layer_name)(fc1)
 
     model = keras.models.Model(inputs=inp, outputs=soft)
 
