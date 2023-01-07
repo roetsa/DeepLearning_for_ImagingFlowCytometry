@@ -150,8 +150,10 @@ class ValidationMonitor(keras.callbacks.Callback):
             preds = self.model.predict_on_batch(image_batch)
             l = preds.shape[0]
             all_labels[pos:pos+l] = label_batch
-            all_preds[pos:pos+l] = np.argmax(preds, axis=1)
-
+            if self.args['noc'] == 2:
+                all_preds[pos:pos + l] = np.rint(np.squeeze(preds, axis=1))
+            else:
+                all_preds[pos:pos + l] = np.argmax(preds, axis=1)
             pos += l
 
         self.log.write("Epoch: %d, batch: %d\n" % (self.epoch, self.batch))

@@ -21,7 +21,12 @@ class BalancedAccuracy(tf.keras.metrics.Metric):
         K.batch_set_value([(v, np.zeros(shape=v.get_shape())) for v in self.variables])
 
     def update_state(self, y_true, y_pred, sample_weight=None):
-        confusion_matrix = tf.math.confusion_matrix(y_true, tf.argmax(y_pred, axis=1), num_classes=self.noc)
+
+        if self.noc == 2 :
+            # Balanced accuracy for binary classifier
+            confusion_matrix = tf.math.confusion_matrix(y_true,tf.round(tf.squeeze(y_pred, axis=1)), num_classes=self.noc)
+        else:
+            confusion_matrix = tf.math.confusion_matrix(y_true, tf.argmax(y_pred, axis=1), num_classes=self.noc)
         return self.confusion_matrix.assign_add(confusion_matrix)
 
     def result(self):

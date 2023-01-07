@@ -71,11 +71,19 @@ def build_model(args, m=None):
 
     bal_acc = metrics.BalancedAccuracy(args["noc"])
 
-    m.compile(
-        optimizer=optimizer,
-        loss=tf.keras.losses.sparse_categorical_crossentropy,
-        metrics=[bal_acc]
-    )
+    if args["noc"] == 2:
+        # Binary cross entropy for 2 channels
+        m.compile(
+            optimizer=optimizer,
+            loss=tf.keras.losses.BinaryCrossentropy(),
+            metrics=[bal_acc]
+        )
+    else:
+        m.compile(
+            optimizer=optimizer,
+            loss=tf.keras.losses.sparse_categorical_crossentropy,
+            metrics=[bal_acc]
+        )
 
     return m
 
