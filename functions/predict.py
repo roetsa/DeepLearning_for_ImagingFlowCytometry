@@ -1,19 +1,17 @@
-import functions.train
-import tensorflow as tf
-from joblib import Parallel, delayed
 from pathlib import Path
 import main
 import model
-import time
 import preprocessing
 import numpy as np
 
 def run(args):
     main.prerun(args, run_dir=False, exp=False)
 
-    with tf.device("/cpu:0"): 
-        data = preprocessing.load_hdf5_to_memory(args, None)
-        ds, ds_len = preprocessing.load_dataset(data, None, None, args, type="pred")
+    split = args["split_dir"]
+    pred_indices = np.loadtxt(Path(split, "test.txt"), dtype=int)
+
+    data = preprocessing.load_hdf5_to_memory(args, None)
+    ds, ds_len = preprocessing.load_dataset(data, pred_indices, None, args, type="pred")
 
     m = model.load_model(args)
     
