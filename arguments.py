@@ -51,6 +51,7 @@ def get_args():
             "augmentation",
             "schedule",
             "comet_project",
+            "name_experiment",
             "sample_weights",
             "param_grid",
             "h5_data",

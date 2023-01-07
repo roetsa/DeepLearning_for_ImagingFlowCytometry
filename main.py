@@ -40,6 +40,7 @@ def prerun(args, run_dir=True, exp=True):
         )
 
         experiment.log_parameters(args)
+        experiment.set_name(args["name_experiment"])
 
         return experiment
     else:
