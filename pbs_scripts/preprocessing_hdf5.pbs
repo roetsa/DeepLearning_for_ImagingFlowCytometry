@@ -1,0 +1,10 @@
+#!/bin/bash
+#PBS -l walltime=10:00:00
+#PBS -N preprocessing_hdf5
+
+module load pandas
+
+echo "Merge wbc data"
+python $VSC_HOME/DeepLearning_for_ImagingFlowCytometry/preprocessing_and_analysis/preprocessing_hdf5.py --output_dir '$VSC_DATA_VO_USER//HDF5/WBC'  --data_dir '/data/gent/vo/000/gvo00070/Newcastle_IFC/LabelFreeCDs/HDF5/WBC/'
+echo "Merge pbmc data"
+python $VSC_HOME/DeepLearning_for_ImagingFlowCytometry/preprocessing_and_analysis/preprocessing_hdf5.py --output_dir '$VSC_DATA_VO_USER/HDF5/PBMC'  --data_dir '/data/gent/vo/000/gvo00070/Newcastle_IFC/LabelFreeCDs/HDF5/PBMC/'

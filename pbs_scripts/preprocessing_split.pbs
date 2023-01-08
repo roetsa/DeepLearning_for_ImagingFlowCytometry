@@ -1,0 +1,8 @@
+#!/bin/bash
+#PBS -l walltime=10:00:00 
+#PBS -N preprocessing_split
+
+module load pandas
+
+python $VSC_HOME/DeepLearning_for_ImagingFlowCytometry/preprocessing_and_analysis/preprocessing_split.py --data_dir "$VSC_DATA_VO_USER/HDF5/PBMC/" --cellnames_file "$VSC_HOME/DeepLearning_for_ImagingFlowCytometry/selected_cells/pbmc_cellnames.txt"
+python $VSC_HOME/DeepLearning_for_ImagingFlowCytometry/preprocessing_and_analysis/preprocessing_split.py --data_dir "$VSC_DATA_VO_USER/HDF5/WBC/" --cellnames_file "$VSC_HOME/DeepLearning_for_ImagingFlowCytometry/selected_cells/wbc_cellnames.txt"

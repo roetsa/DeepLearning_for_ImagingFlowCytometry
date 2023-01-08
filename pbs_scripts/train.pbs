@@ -1,0 +1,14 @@
+#!/bin/bash
+#PBS -l walltime=10:00:00  
+#PBS -l nodes=1:ppn=quarter,gpus=1
+
+module load TensorFlow/2.4.1-fosscuda-2020b
+
+pip install --user -r DeepLearning_for_ImagingFlowCytometry/requirements_hpc.txt
+
+mkdir -p $VSC_DATA_VO_USER/Run/wbc/Plate2_B09
+
+rm -f $VSC_DATA_VO_USER/Run/wbc/Plate2_B09/initial_model_weights.h5
+cp  $VSC_HOME/DeepLearning_for_ImagingFlowCytometry/weights/deepflow-wbc-bfdf.h5 $VSC_DATA_VO_USER/Run/wbc/Plate2_B09/initial_model_weights.h5 
+
+python $VSC_HOME/DeepLearning_for_ImagingFlowCytometry/main.py train Configs/generated/wbc/train-2-deepflow_hpc_Plate2_B09.json  -r $VSC_DATA_VO_USER/Run/wbc/Plate2_B09  $VSC_DATA_VO_USER/HDF5/WBC/

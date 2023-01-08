@@ -1,0 +1,8 @@
+#!/bin/bash
+#PBS -l walltime=10:00:00
+#PBS -N preprocessing_hdf5_isotype
+
+module load pandas
+
+echo "Merge pbmc data"
+python $VSC_HOME/DeepLearning_for_ImagingFlowCytometry/preprocessing_and_analysis/preprocessing_hdf5_isotype.py --output_dir '/data/gent/vo/000/gvo00070/vsc44507/HDF5/PBMC/'  --data_dir '/data/gent/vo/000/gvo00070/Newcastle_IFC/LabelFreeCDs/HDF5/PBMC/'
