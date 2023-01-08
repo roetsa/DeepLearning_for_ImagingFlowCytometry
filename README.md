@@ -124,23 +124,36 @@ This is the path the first common parent directory of the results directory, HDF
 
 This setup makes it easy to re-use JSON-configs accross machines, as long as the directory tree starting from the data root is the same for every machine.
 
-#### Special case: isotype
+### Special case: isotype
 
-Ten samples in each dataset are labeled as isotypes, the specific identifiers are listed [here](https://github.com/roetsa/DeepLearning_for_ImagingFlowCytometry/blob/master/selected_cells/isotype_cellnames.txt)
-Isotypes can be used to check for spectral overlap. Some of it is removed by the IDEAS
-software with spectral compensation, but not all. With spectral overlap, some fluorescent emission might have spilled over on the brightfield or darkfield images. The model
-should not use this information to predict the class. To test that it is not using this information, isotypes do not contain any antibodies which will bind with proteins and stain for
-the specific surface protein of the classifier and there can be no spectral overlap. However,
-this also means that there is no ground truth available, since the staining is used for the
-labelling. If the assumption is made that the cell distribution is the same across the wells,
+Ten samples in each dataset are labeled as isotypes, the specific identifiers are listed [here](https://github.com/roetsa/DeepLearning_for_ImagingFlowCytometry/blob/master/selected_cells/isotype_cellnames.txt).
+Isotypes can be used to check for spectral overlap. In isotypes, there is no staining for specific markers
+but there is also no ground truth available,since the staining is used for the labelling.
+However, if the assumption is made that the cell distribution is the same across the wells,
 they should predict the same proportion of positive labels for a specific surface protein
 as for the well where the stain was added. If the model got information through spectral
 overlap to identify the surface-protein, the proportions will be different. 
 
-=> scripts specific for isotype checking are listed with _isotype.
 
-#### Lessons learned
+### Lessons learned
 
 The original repository already had everything implemented for the cross validation (including the evaluation of the metrics). 
 Switching to the train-validation-set required extra scripting. On the HPC clusters, the training did not take as long as expected.
 For a subset where the results of the classification are good, it makes sense to try the cross validation approach.
+
+## Step by step
+
+#### Standard
+
+1. Create the correct input files and meta data files
+2. Split up into train-validation-test set and save indices
+3. Train model on each stain-free marker 
+4. Predict on test set the outcome
+5. Evaluate predictions
+
+#### Isotype
+
+Start from the trained models (step 3):
+
+4. Predict on isotypes with each model trained on the labelled data for specific marker
+5. Evaluate predictions => are the proportions the same ?
