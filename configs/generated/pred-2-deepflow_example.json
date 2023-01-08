@@ -1,0 +1,12 @@
+{
+    "batch_size": 128,
+    "image_width": 90,
+    "image_height": 90,
+    "channels": [1, 6, 9],
+    "model":"deepflow",
+    "h5_data": "Plate2_C01_pos_90x90.h5",
+    "l2": 0.0005,
+    "noc": 2,
+    "model_hdf5": "/best-model.hdf5"
+}
+
